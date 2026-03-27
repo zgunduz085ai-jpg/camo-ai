@@ -118,7 +118,7 @@ function FleetPanel({ fleet, setFleet, selectedAcId, setSelectedAcId }) {
     if (!llpFile) return;
     setLlpFilling(true);
     try {
-      const res = await fetch("https://api.anthropic.com/v1/messages", {
+      const res = await fetch("/api/claude", {
         method: "POST", headers: {"Content-Type":"application/json"},
         body: JSON.stringify({
           model: "claude-sonnet-4-20250514", max_tokens: 500,
@@ -373,7 +373,7 @@ function ToolPanel({ tool, fleet, setFleet, selectedAcId, setActiveTool }) {
     setMessages(prev=>[...prev,userMsg]); setInput(""); setLoading(true);
     try {
       const history = [...messages,userMsg].map(m=>({role:m.role,content:m.content}));
-      const res = await fetch("https://api.anthropic.com/v1/messages",{
+      const res = await fetch("/api/claude",{
         method:"POST", headers:{"Content-Type":"application/json"},
         body:JSON.stringify({ model:"claude-sonnet-4-20250514", max_tokens:1000, system:buildSystemPrompt(tool.id,aircraft,activeFile), messages:history })
       });
